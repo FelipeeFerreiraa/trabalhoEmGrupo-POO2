@@ -30,7 +30,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        ImageIcon icon = new ImageIcon(getClass().getResource("/images/tropaDeElite.jpg"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/images/tropaDeElite2.jpg"));
         Image image = icon.getImage();
         panel_areaDeTrabalho = new javax.swing.JDesktopPane() {
 
@@ -59,27 +59,54 @@ public class TelaPrincipal extends javax.swing.JFrame {
         );
         panel_areaDeTrabalhoLayout.setVerticalGroup(
             panel_areaDeTrabalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 552, Short.MAX_VALUE)
+            .addGap(0, 542, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Cadastro");
+        jMenu1.setFont(new java.awt.Font("Arial", 0, 22)); // NOI18N
 
+        menuItem_ipl.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         menuItem_ipl.setText("Indivíduo Privado de Liberdade ");
         jMenu1.add(menuItem_ipl);
 
+        menuItem_policialPenal.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         menuItem_policialPenal.setText("Políciais Penais");
+        menuItem_policialPenal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItem_policialPenalActionPerformed(evt);
+            }
+        });
         jMenu1.add(menuItem_policialPenal);
 
+        menuItem_celas.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         menuItem_celas.setText("Celas");
         jMenu1.add(menuItem_celas);
 
+        menuItem_crimes.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         menuItem_crimes.setText("Crimes");
+        menuItem_crimes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItem_crimesActionPerformed(evt);
+            }
+        });
         jMenu1.add(menuItem_crimes);
 
+        menuItem_visitas.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         menuItem_visitas.setText("Visitas");
+        menuItem_visitas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItem_visitasActionPerformed(evt);
+            }
+        });
         jMenu1.add(menuItem_visitas);
 
+        menuItem_refeicoes.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         menuItem_refeicoes.setText("Refeições");
+        menuItem_refeicoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItem_refeicoesActionPerformed(evt);
+            }
+        });
         jMenu1.add(menuItem_refeicoes);
 
         menu_barra.add(jMenu1);
@@ -100,6 +127,31 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void menuItem_policialPenalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem_policialPenalActionPerformed
+
+        PolicialPenalView policialView = new PolicialPenalView();
+        policialView.setVisible(true);
+        panel_areaDeTrabalho.add(policialView);
+    }//GEN-LAST:event_menuItem_policialPenalActionPerformed
+
+    private void menuItem_refeicoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem_refeicoesActionPerformed
+        RefeicaoView refeicaoView = new RefeicaoView();
+        refeicaoView.setVisible(true);
+        panel_areaDeTrabalho.add(refeicaoView);
+    }//GEN-LAST:event_menuItem_refeicoesActionPerformed
+
+    private void menuItem_crimesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem_crimesActionPerformed
+        CrimesView crimesView = new CrimesView();
+        crimesView.setVisible(true);
+        panel_areaDeTrabalho.add(crimesView);
+    }//GEN-LAST:event_menuItem_crimesActionPerformed
+
+    private void menuItem_visitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem_visitasActionPerformed
+        VisitasView visitasView = new VisitasView();
+        visitasView.setVisible(true);
+        panel_areaDeTrabalho.add(visitasView);
+    }//GEN-LAST:event_menuItem_visitasActionPerformed
 
     /**
      * @param args the command line arguments
