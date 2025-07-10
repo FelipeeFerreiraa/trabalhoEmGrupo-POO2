@@ -1,8 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package view;
+
+import controller.PolicialPenalController;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.PolicialPenalModel;
+import util.Relatorios;
 
 /**
  *
@@ -13,8 +19,56 @@ public class PolicialPenalView extends javax.swing.JInternalFrame {
     /**
      * Creates new form PolicialPenalView
      */
+    private int linha = -1; // USADO PARA VERIFICAR SE ALGUMA LINHA DA TABELA FOI SELECIONADA
+
     public PolicialPenalView() {
         initComponents();
+        inicializar();
+        preencherTabela();
+    }
+
+    private void inicializar() {
+        cxt_id.setEnabled(false);
+        cxt_cpf.setEnabled(false);
+        cxt_nome.setEnabled(false);
+        cxt_entrada.setEnabled(false);
+        cxt_saida.setEnabled(false);
+
+        btn_editar.setEnabled(false);
+        btn_excluir.setEnabled(false);
+        btn_salvar.setEnabled(false);
+        btn_novo.setEnabled(true);
+
+    }
+
+    private void preencherTabela() {
+        PolicialPenalController controller = new PolicialPenalController();
+        ArrayList<PolicialPenalModel> lista = controller.selecionarTodos();
+
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "NENHUM POLICIAL PENAL CADASTRADO! (PolicialPenalView ln 41)", "Preenchendo tabela....", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            DefaultTableModel modeloTabela = (DefaultTableModel) tb_policial.getModel();
+            modeloTabela.setRowCount(0);
+            for (PolicialPenalModel pp : lista) {
+                modeloTabela.addRow(new String[]{
+                    String.valueOf(pp.getIdpolicialpenal()),
+                    pp.getCpf(),
+                    pp.getNome(),
+                    pp.getTurno_entrada(),
+                    pp.getTurno_saida()
+                });
+            }
+        }
+    }
+
+    private void limparCampos() {
+        cxt_id.setText("");
+        cxt_cpf.setText("");
+        cxt_nome.setText("");
+        cxt_entrada.setText("");
+        cxt_saida.setText("");
     }
 
     /**
@@ -109,6 +163,11 @@ public class PolicialPenalView extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tb_policial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tb_policialMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tb_policial);
         if (tb_policial.getColumnModel().getColumnCount() > 0) {
             tb_policial.getColumnModel().getColumn(0).setResizable(false);
@@ -136,6 +195,11 @@ public class PolicialPenalView extends javax.swing.JInternalFrame {
 
         btn_editar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btn_editar.setText("Editar");
+        btn_editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_editarActionPerformed(evt);
+            }
+        });
 
         btn_novo.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btn_novo.setText("Novo");
@@ -265,14 +329,77 @@ public class PolicialPenalView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cxt_idActionPerformed
 
     private void btn_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_excluirActionPerformed
-        // TODO add your handling code here:
+        if (cxt_id.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ESCOLHA UMA LINHA PARA EXCLUIR!", "Excluindo....", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+
+            //---------------- CONTROLLER
+            PolicialPenalController controller = new PolicialPenalController();
+            if (controller.editar(Integer.parseInt(cxt_id.getText()))) {
+                JOptionPane.showMessageDialog(this, "Dados excluídos", "excluindo...!", JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+                inicializar();
+                preencherTabela();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "ERRO AO EXCLUIR POLICIALPENAL", "Algo de errado não está certo....", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+
+// TODO add your handling code here:
     }//GEN-LAST:event_btn_excluirActionPerformed
 
     private void btn_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novoActionPerformed
+
+        cxt_id.setEnabled(false);
+        cxt_cpf.setEnabled(true);
+        cxt_nome.setEnabled(true);
+        cxt_entrada.setEnabled(true);
+        cxt_saida.setEnabled(true);
+
+        btn_novo.setEnabled(false);
+        btn_editar.setEnabled(false);
+        btn_excluir.setEnabled(false);
+        btn_salvar.setEnabled(true);
+
+        limparCampos();
+
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_novoActionPerformed
 
     private void btn_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvarActionPerformed
+
+        String cpf = cxt_cpf.getText();
+        String nome = cxt_nome.getText();
+        String entrada = cxt_entrada.getText();
+        String saida = cxt_saida.getText();
+
+        if (cpf.isEmpty() || nome.isEmpty() || entrada.isEmpty() || saida.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "INFORME TODOS OS CAMPOS!", "Atenção....", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+            PolicialPenalModel policial = new PolicialPenalModel();
+            policial.setCpf(cpf);
+            policial.setNome(nome);
+            policial.setTurno_entrada(entrada);
+            policial.setTurno_saida(saida);
+
+            //------------ CONTROLLER
+            PolicialPenalController controller = new PolicialPenalController();
+            if (controller.inserir(policial)) {
+                JOptionPane.showMessageDialog(this, "POLICIAL CADASTRADO!", "Salvamento realizado...", JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+                inicializar();
+                preencherTabela();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "ERRO AO INSERIR FORNECEDOR", "Algo de errado não está certo....", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_salvarActionPerformed
 
@@ -285,6 +412,51 @@ public class PolicialPenalView extends javax.swing.JInternalFrame {
         this.dispose();
 
     }//GEN-LAST:event_btn_fecharActionPerformed
+
+    private void tb_policialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_policialMouseClicked
+        linha = tb_policial.getSelectedRow();
+
+        if (linha != -1) {
+            cxt_id.setText(tb_policial.getValueAt(linha, 0).toString());
+            cxt_cpf.setText(tb_policial.getValueAt(linha, 1).toString());
+            cxt_nome.setText(tb_policial.getValueAt(linha, 2).toString());
+            cxt_entrada.setText(tb_policial.getValueAt(linha, 3).toString());
+            cxt_saida.setText(tb_policial.getValueAt(linha, 4).toString());
+
+            btn_novo.setEnabled(false);
+            btn_salvar.setEnabled(false);
+            btn_editar.setEnabled(true);
+            btn_excluir.setEnabled(true);
+
+            cxt_id.setEnabled(false);
+            cxt_cpf.setEnabled(true);
+            cxt_nome.setEnabled(true);
+            cxt_entrada.setEnabled(true);
+            cxt_saida.setEnabled(true);
+            linha = -1;
+
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tb_policialMouseClicked
+
+    private void acaoGerarRelatorio() throws IOException {
+
+        Relatorios.relatorio("relatorio_policialPenal", "", "");
+
+    }
+
+    private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
+
+        try {
+            acaoGerarRelatorio();
+
+            // TODO add your handling code here:
+        } catch (IOException ex) {
+            Logger.getLogger(PolicialPenalView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_editarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
