@@ -20,7 +20,7 @@ public class PolicialPenalController {
         boolean retorno = false;
 
         Conexao.conectar();
-        String sql = "INSERT INTO policialpenal (pp_cpf, pp_nome, pp_turno_entrada, pp_turno_saida) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO policialpenal (pp_cpf, pp_nome, pp_turno_entrada, pp_turno_saida, status) VALUES (?,?,?,?, 1)";
 
         try {
             PreparedStatement sentenca = Conexao.conector.prepareStatement(sql);

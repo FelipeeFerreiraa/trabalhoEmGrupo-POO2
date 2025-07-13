@@ -48,37 +48,12 @@ FROM penitenciaria.policialpenal]]>
 	</field>
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{idpolicialPenal}]]></groupExpression>
-		<groupHeader>
-			<band height="40">
-				<textField>
-					<reportElement style="SubTitle" x="47" y="13" width="506" height="24" forecolor="#CC0000" uuid="d68ccb36-41b2-4e35-86c2-dc324562ca08"/>
-					<textElement>
-						<font isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{idpolicialPenal}]]></textFieldExpression>
-				</textField>
-				<rectangle>
-					<reportElement mode="Opaque" x="0" y="13" width="36" height="24" forecolor="#CCCCCC" backcolor="#CCCCCC" uuid="b9a66a94-77af-4a13-8b04-f7bca7e60ad1"/>
-				</rectangle>
-			</band>
-		</groupHeader>
 		<groupFooter>
-			<band height="6"/>
+			<band/>
 		</groupFooter>
 	</group>
 	<group name="Group2">
 		<groupExpression><![CDATA[$F{pp_nome}]]></groupExpression>
-		<groupHeader>
-			<band height="30">
-				<textField>
-					<reportElement style="SubTitle" x="0" y="4" width="460" height="20" uuid="2257c382-adc1-4127-b805-a1126228d77d"/>
-					<textElement>
-						<font size="16" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{pp_nome}]]></textFieldExpression>
-				</textField>
-			</band>
-		</groupHeader>
 	</group>
 	<group name="pp_cpf">
 		<groupExpression><![CDATA[$F{pp_cpf}]]></groupExpression>
@@ -96,73 +71,130 @@ FROM penitenciaria.policialpenal]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="70" splitType="Stretch">
-			<image>
-				<reportElement x="275" y="0" width="300" height="64" uuid="ea5ad761-92e5-4024-9d51-efba4363bb54"/>
-				<imageExpression><![CDATA["leaf_banner_red.png"]]></imageExpression>
-			</image>
+		<band height="112" splitType="Stretch">
 			<staticText>
 				<reportElement style="Title" x="0" y="13" width="263" height="33" uuid="91f5fe7f-a65f-46a3-81ae-30f2d82c45a2"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Leaf Red Title]]></text>
+				<text><![CDATA[Políciais Penais]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="SubTitle" x="117" y="46" width="157" height="22" uuid="6931f6fc-c9e8-4cc3-9eec-607a123c87f7"/>
-				<text><![CDATA[Leaf Red SubTitle]]></text>
+				<reportElement style="SubTitle" x="117" y="46" width="223" height="15" uuid="6931f6fc-c9e8-4cc3-9eec-607a123c87f7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Projeto final - POO2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="81" width="20" height="20" uuid="eeaee1d0-db39-4a1f-bc6b-6a813b7ba598"/>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="48" y="81" width="132" height="20" uuid="bf6cb039-3eeb-4332-b17d-2542c5cee3e4"/>
+				<text><![CDATA[NOME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="81" width="117" height="20" uuid="a0d315af-75d7-42e0-88df-3024d1bbe367"/>
+				<text><![CDATA[CPF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="297" y="80" width="100" height="21" uuid="f0c5d664-e536-4174-a087-33b2ad1b6602"/>
+				<text><![CDATA[ENTRADA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="397" y="80" width="83" height="21" uuid="d1f92bf2-6422-4afc-ac47-0bf1afec63da"/>
+				<text><![CDATA[SAÍDA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="80" width="52" height="21" uuid="aad74238-05f5-4a2e-a2d4-ec4e85f092f9"/>
+				<text><![CDATA[STATUS]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="-2" y="80" width="555" height="1" uuid="16de39a2-cd17-4abc-a792-beb8e8365fe2"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="110" width="555" height="1" uuid="ffde0804-90e8-496b-86fb-ee363619f187"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="391" y="20" width="158" height="30" uuid="4391b447-9e75-48f8-bf05-ea380b894e67"/>
+				<text><![CDATA[COLOCAR LOGO]]></text>
 			</staticText>
 		</band>
 	</title>
 	<pageHeader>
 		<band splitType="Stretch"/>
 	</pageHeader>
-	<columnHeader>
-		<band height="36" splitType="Stretch">
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="2c4ebb21-8745-45a1-a9ad-477acaac72cb"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineColor="#999999"/>
-				</graphicElement>
-			</line>
-		</band>
-	</columnHeader>
 	<detail>
 		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="20" height="15" uuid="3ca4ed41-fa94-488c-88ea-d45d83a51521">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{idpolicialPenal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="48" y="0" width="132" height="15" uuid="70c36bfb-9458-4eab-b30c-00584acfcb31">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{pp_nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="0" width="117" height="15" uuid="a3c9797d-b7c3-4038-9327-b24afb619123">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{pp_cpf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="297" y="0" width="100" height="15" uuid="88c8af00-9730-4bed-a96c-8cac76adca77">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{pp_turno_entrada}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="397" y="0" width="83" height="15" uuid="7d94cd75-8c3b-4834-9d0e-59cb0cf258ad">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{pp_turno_saida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="0" width="52" height="15" uuid="25eb5a8a-09cd-4bda-a348-5f1f1d3d4ce6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+			</textField>
 			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="ffde0804-90e8-496b-86fb-ee363619f187"/>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="aa1c2593-bbea-4f66-919b-58fea836e2fc"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
 			</line>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch">
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="30093aa1-3dd7-4eea-9cc9-e183637af8f4"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineColor="#999999"/>
-				</graphicElement>
-			</line>
-		</band>
-	</columnFooter>
 	<pageFooter>
-		<band height="20" splitType="Stretch">
+		<band height="36" splitType="Stretch">
 			<textField>
-				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="c9e9a989-76ae-4c92-a08c-dba3c3185f04"/>
+				<reportElement style="Column header" x="430" y="8" width="80" height="20" uuid="c9e9a989-76ae-4c92-a08c-dba3c3185f04"/>
 				<textElement textAlignment="Right">
 					<font size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="736cac2d-8f9a-48bb-b4e7-09302ce0e313"/>
+				<reportElement style="Column header" x="513" y="8" width="40" height="20" uuid="736cac2d-8f9a-48bb-b4e7-09302ce0e313"/>
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="c49bc611-71b3-4860-8112-76288860b48d"/>
+				<reportElement style="Column header" x="0" y="10" width="197" height="20" uuid="c49bc611-71b3-4860-8112-76288860b48d"/>
 				<textElement>
 					<font size="10" isBold="false"/>
 				</textElement>

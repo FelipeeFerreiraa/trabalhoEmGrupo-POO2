@@ -1,5 +1,16 @@
 package view;
 
+import controller.CrimesController;
+import controller.PolicialPenalController;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.CrimesModel;
+import util.Relatorios;
+
 /**
  *
  * @author felip
@@ -11,6 +22,49 @@ public class CrimesView extends javax.swing.JInternalFrame {
      */
     public CrimesView() {
         initComponents();
+        inicializar();
+        preencherTabela();
+    }
+
+    private int linha = -1;
+
+    private void inicializar() {
+        cxt_id.setEnabled(false);
+        cxt_descricao.setEnabled(false);
+        cxt_data.setEnabled(false);
+
+        btn_editar.setEnabled(false);
+        btn_excluir.setEnabled(false);
+        btn_salvar.setEnabled(false);
+        btn_novo.setEnabled(true);
+
+    }
+
+    private void preencherTabela() {
+        CrimesController controller = new CrimesController();
+        ArrayList<CrimesModel> lista = controller.selecionarTodos();
+
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "NENHUM CRIME CADASTRADO! (CrimesView ln 41)",
+                    "Preenchendo tabela....", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            DefaultTableModel modeloTabela = (DefaultTableModel) tb_crimes.getModel();
+            modeloTabela.setRowCount(0);
+            for (CrimesModel c : lista) {
+                modeloTabela.addRow(new String[]{
+                    String.valueOf(c.getIdcrimes()),
+                    c.getDescricao(),
+                    c.getData_cometido()
+                });
+            }
+        }
+    }
+
+    private void limparCampos() {
+        cxt_id.setText("");
+        cxt_descricao.setText("");
+        cxt_data.setText("");
     }
 
     /**
@@ -86,6 +140,11 @@ public class CrimesView extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tb_crimes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tb_crimesMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tb_crimes);
         if (tb_crimes.getColumnModel().getColumnCount() > 0) {
             tb_crimes.getColumnModel().getColumn(0).setResizable(false);
@@ -111,6 +170,11 @@ public class CrimesView extends javax.swing.JInternalFrame {
 
         btn_editar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btn_editar.setText("Editar");
+        btn_editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_editarActionPerformed(evt);
+            }
+        });
 
         btn_novo.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btn_novo.setText("Novo");
@@ -158,27 +222,28 @@ public class CrimesView extends javax.swing.JInternalFrame {
                                 .addComponent(cxt_id, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cxt_data, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(143, 143, 143))
+                                .addGap(124, 124, 124))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cxt_descricao, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_fechar))
+                    .addComponent(jScrollPane2)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btn_novo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_salvar)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(cxt_data, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btn_novo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_salvar)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_editar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_excluir)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_imprimir)
-                        .addGap(0, 80, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2))
+                        .addGap(0, 80, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -232,19 +297,92 @@ public class CrimesView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cxt_idActionPerformed
 
     private void btn_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_excluirActionPerformed
-        // TODO add your handling code here:
+
+        CrimesModel crimes = new CrimesModel();
+
+        if (cxt_id.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ESCOLHA UMA LINHA PARA EXCLUIR!", "Excluindo....",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+
+            crimes.setIdcrimes(Integer.parseInt(cxt_id.getText()));
+
+            // ---------------- CONTROLLER
+            CrimesController controller = new CrimesController();
+            if (controller.excluir(crimes)) {
+                JOptionPane.showMessageDialog(this, "Dados excluídos", "excluindo...!",
+                        JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+                inicializar();
+                preencherTabela();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "ERRO AO EXCLUIR CRIMES",
+                        "Algo de errado não está certo....", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
     }//GEN-LAST:event_btn_excluirActionPerformed
 
     private void btn_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novoActionPerformed
-        // TODO add your handling code here:
+
+        cxt_id.setEnabled(false);
+        cxt_descricao.setEnabled(true);
+        cxt_data.setEnabled(true);
+
+        btn_novo.setEnabled(false);
+        btn_editar.setEnabled(false);
+        btn_excluir.setEnabled(false);
+        btn_salvar.setEnabled(true);
+
+        limparCampos();
+        cxt_descricao.requestFocus();
+
     }//GEN-LAST:event_btn_novoActionPerformed
 
     private void btn_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvarActionPerformed
-        // TODO add your handling code here:
+
+        String descricao = cxt_descricao.getText();
+        String data = cxt_data.getText();
+
+        if (descricao.isEmpty() || data.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "INFORME TODOS OS CAMPOS!", "Atenção....", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+            CrimesModel crimes = new CrimesModel();
+            crimes.setDescricao(descricao);
+            crimes.setData_cometido(data);
+
+            // ------------ CONTROLLER
+            CrimesController controller = new CrimesController();
+            if (controller.inserir(crimes)) {
+                JOptionPane.showMessageDialog(this, "CRIME CADASTRADO!", "Salvamento realizado...",
+                        JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+                inicializar();
+                preencherTabela();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "ERRO AO INSERIR CRIME", "Algo de errado não está certo....",
+                        JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
     }//GEN-LAST:event_btn_salvarActionPerformed
 
+    private void acaoGerarRelatorio() throws IOException {
+
+        Relatorios.relatorio("relatorio_crimes", "", "");
+
+    }
+
     private void btn_imprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimirActionPerformed
-        // TODO add your handling code here:
+        try {
+            acaoGerarRelatorio();
+        } catch (IOException ex) {
+            Logger.getLogger(CrimesView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_imprimirActionPerformed
 
     private void btn_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_fecharActionPerformed
@@ -252,6 +390,60 @@ public class CrimesView extends javax.swing.JInternalFrame {
         this.dispose();
 
     }//GEN-LAST:event_btn_fecharActionPerformed
+
+    private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
+        int id = Integer.parseInt(cxt_id.getText());
+        String descricao = cxt_descricao.getText();
+        String data = cxt_data.getText();
+
+        if (descricao.isEmpty() || data.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Informe todos os campos.....", "Atenção!",
+                    JOptionPane.WARNING_MESSAGE);
+
+        } else {
+
+            CrimesModel crimes = new CrimesModel();
+            crimes.setIdcrimes(id);
+            crimes.setDescricao(descricao);
+            crimes.setData_cometido(data);
+
+            // ---------------- CONTROLLER
+            CrimesController controller = new CrimesController();
+            if (controller.editar(crimes)) {
+                JOptionPane.showMessageDialog(this, "Dados Atualizados", "Atualizando...!",
+                        JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+                inicializar();
+                preencherTabela();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "ERRO AO EDITAR CRIMES", "Algo de errado não está certo....",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
+    }//GEN-LAST:event_btn_editarActionPerformed
+
+    private void tb_crimesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_crimesMouseClicked
+        linha = tb_crimes.getSelectedRow();
+
+        if (linha != -1) {
+            cxt_id.setText(tb_crimes.getValueAt(linha, 0).toString());
+            cxt_descricao.setText(tb_crimes.getValueAt(linha, 1).toString());
+            cxt_data.setText(tb_crimes.getValueAt(linha, 2).toString());
+
+            btn_novo.setEnabled(false);
+            btn_salvar.setEnabled(false);
+            btn_editar.setEnabled(true);
+            btn_excluir.setEnabled(true);
+
+            cxt_id.setEnabled(false);
+            cxt_descricao.setEnabled(true);
+            cxt_data.setEnabled(true);
+
+            linha = -1;
+        }
+    }//GEN-LAST:event_tb_crimesMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

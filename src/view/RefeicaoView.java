@@ -1,5 +1,15 @@
 package view;
 
+import controller.RefeicaoController;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.RefeicaoModel;
+import util.Relatorios;
+
 /**
  *
  * @author felip
@@ -11,6 +21,53 @@ public class RefeicaoView extends javax.swing.JInternalFrame {
      */
     public RefeicaoView() {
         initComponents();
+        inicializar();
+        preencherTabela();
+    }
+
+    private int linha = -1; // USADO PARA VERIFICAR SE ALGUMA LINHA DA TABELA FOI SELECIONADA
+
+    private void inicializar() {
+        cxt_id.setEnabled(false);
+        cxt_comida.setEnabled(false);
+        cxt_diaSemana.setEnabled(false);
+        cxt_horario.setEnabled(false);
+
+        btn_editar.setEnabled(false);
+        btn_excluir.setEnabled(false);
+        btn_salvar.setEnabled(false);
+        btn_novo.setEnabled(true);
+
+    }
+
+    private void preencherTabela() {
+        RefeicaoController controller = new RefeicaoController();
+        ArrayList<RefeicaoModel> lista = controller.selecionarTodos();
+
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "NENHUMA  REFEIÇÃO CADASTRADA! (RefeicaoView ln 41)",
+                    "Preenchendo tabela....", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            DefaultTableModel modeloTabela = (DefaultTableModel) tb_refeicao.getModel();
+            modeloTabela.setRowCount(0);
+            for (RefeicaoModel r : lista) {
+                modeloTabela.addRow(new String[]{
+                    String.valueOf(r.getIdrefeicao()),
+                    r.getComida(),
+                    r.getDia_semana(),
+                    r.getHorario()
+                });
+            }
+        }
+    }
+
+    private void limparCampos() {
+        cxt_id.setText("");
+        cxt_comida.setText("");
+        cxt_diaSemana.setText("");
+        cxt_horario.setText("");
+
     }
 
     /**
@@ -94,6 +151,11 @@ public class RefeicaoView extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tb_refeicao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tb_refeicaoMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tb_refeicao);
         if (tb_refeicao.getColumnModel().getColumnCount() > 0) {
             tb_refeicao.getColumnModel().getColumn(0).setResizable(false);
@@ -120,6 +182,11 @@ public class RefeicaoView extends javax.swing.JInternalFrame {
 
         btn_editar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btn_editar.setText("Editar");
+        btn_editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_editarActionPerformed(evt);
+            }
+        });
 
         btn_novo.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btn_novo.setText("Novo");
@@ -153,7 +220,6 @@ public class RefeicaoView extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,30 +305,158 @@ public class RefeicaoView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cxt_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cxt_idActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_cxt_idActionPerformed
 
     private void btn_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_excluirActionPerformed
-        // TODO add your handling code here:
+        RefeicaoModel refeicao = new RefeicaoModel();
+
+        if (cxt_id.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ESCOLHA UMA LINHA PARA EXCLUIR!", "Excluindo....",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+
+            refeicao.setIdrefeicao(Integer.parseInt(cxt_id.getText()));
+
+            // ---------------- CONTROLLER
+            RefeicaoController controller = new RefeicaoController();
+            if (controller.excluir(refeicao)) {
+                JOptionPane.showMessageDialog(this, "Dados excluídos", "excluindo...!",
+                        JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+                inicializar();
+                preencherTabela();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "ERRO AO EXCLUIR CRIMES",
+                        "Algo de errado não está certo....", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
     }//GEN-LAST:event_btn_excluirActionPerformed
 
     private void btn_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novoActionPerformed
-        // TODO add your handling code here:
+        cxt_id.setEnabled(false);
+        cxt_comida.setEnabled(true);
+        cxt_diaSemana.setEnabled(true);
+        cxt_horario.setEnabled(true);
+
+        btn_novo.setEnabled(false);
+        btn_editar.setEnabled(false);
+        btn_excluir.setEnabled(false);
+        btn_salvar.setEnabled(true);
+
+        limparCampos();
+        cxt_comida.requestFocus();
     }//GEN-LAST:event_btn_novoActionPerformed
 
     private void btn_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvarActionPerformed
-        // TODO add your handling code here:
+        String comida = cxt_comida.getText();
+        String dia = cxt_diaSemana.getText();
+        String horario = cxt_horario.getText();
+
+        if (comida.isEmpty() || dia.isEmpty() || horario.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "INFORME TODOS OS CAMPOS!", "Atenção....", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+            RefeicaoModel refeicao = new RefeicaoModel();
+            refeicao.setComida(comida);
+            refeicao.setDia_semana(dia);
+            refeicao.setHorario(horario);
+
+            // ------------ CONTROLLER
+            RefeicaoController controller = new RefeicaoController();
+            if (controller.inserir(refeicao)) {
+                JOptionPane.showMessageDialog(this, "REFEIÇÃO CADASTRADS!", "Salvamento realizado...",
+                        JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+                inicializar();
+                preencherTabela();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "ERRO AO INSERIR REFEIÇÃO", "Algo de errado não está certo....",
+                        JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
     }//GEN-LAST:event_btn_salvarActionPerformed
 
+    private void acaoGerarRelatorio() throws IOException {
+        Relatorios.relatorio("relatorio_refeicao", "", "");
+    }
+
     private void btn_imprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimirActionPerformed
-        // TODO add your handling code here:
+        try {
+            acaoGerarRelatorio();
+        } catch (IOException ex) {
+            Logger.getLogger(RefeicaoView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_imprimirActionPerformed
 
     private void btn_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_fecharActionPerformed
 
         this.dispose();
-
     }//GEN-LAST:event_btn_fecharActionPerformed
+
+    private void tb_refeicaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_refeicaoMouseClicked
+        linha = tb_refeicao.getSelectedRow();
+
+        if (linha != -1) {
+            cxt_id.setText(tb_refeicao.getValueAt(linha, 0).toString());
+            cxt_comida.setText(tb_refeicao.getValueAt(linha, 1).toString());
+            cxt_diaSemana.setText(tb_refeicao.getValueAt(linha, 2).toString());
+            cxt_horario.setText(tb_refeicao.getValueAt(linha, 3).toString());
+
+            btn_novo.setEnabled(false);
+            btn_salvar.setEnabled(false);
+            btn_editar.setEnabled(true);
+            btn_excluir.setEnabled(true);
+
+            cxt_id.setEnabled(false);
+            cxt_comida.setEnabled(true);
+            cxt_diaSemana.setEnabled(true);
+            cxt_horario.setEnabled(true);
+            linha = -1;
+
+        }
+    }//GEN-LAST:event_tb_refeicaoMouseClicked
+
+    private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
+        int id = Integer.parseInt(cxt_id.getText());
+        String comida = cxt_comida.getText();
+        String dia = cxt_diaSemana.getText();
+        String horario = cxt_horario.getText();
+
+        if (comida.isEmpty() || dia.isEmpty() || horario.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Informe todos os campos.....", "Atenção!",
+                    JOptionPane.WARNING_MESSAGE);
+
+        } else {
+
+            RefeicaoModel refeicao = new RefeicaoModel();
+            refeicao.setIdrefeicao(id);
+            refeicao.setComida(comida);
+            refeicao.setDia_semana(dia);
+            refeicao.setHorario(horario);
+
+            // ---------------- CONTROLLER
+            RefeicaoController controller = new RefeicaoController();
+            if (controller.editar(refeicao)) {
+                JOptionPane.showMessageDialog(this, "Dados Atualizados", "Atualizando...!",
+                        JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+                inicializar();
+                preencherTabela();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "ERRO AO EDITAR REFEICAO", "Algo de errado não está certo....",
+                        JOptionPane.ERROR_MESSAGE);
+
+            }
+
+        }
+    }//GEN-LAST:event_btn_editarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.0.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Leaf_Red" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8e15d519-eab3-497d-b483-a5c1caac3ee0">
+	<property name="com.jaspersoft.studio.data.sql.tables" value="cGVuaXRlbmNpYXJpYS5yZWZlaWNhbyBBUyAsNDQsMTIsNjE4ZjEzYWEtNzBhMy00NzUyLTgxMzgt&#xA;YzQyMWFiZWYzMTFmOw==&#xA;"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="trabalhoPenitenciaria.xml"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT penitenciaria.refeicao.idrefeicao,
+	penitenciaria.refeicao.comida,
+	penitenciaria.refeicao.dia_semana,
+	penitenciaria.refeicao.horario
+FROM penitenciaria.refeicao]]>
+	</queryString>
+	<field name="idrefeicao" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="idrefeicao"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="refeicao"/>
+	</field>
+	<field name="comida" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="comida"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="refeicao"/>
+	</field>
+	<field name="dia_semana" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="dia_semana"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="refeicao"/>
+	</field>
+	<field name="horario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="horario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="refeicao"/>
+	</field>
+	<group name="Group1">
+		<groupExpression><![CDATA[$F{idrefeicao}]]></groupExpression>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<group name="Group2">
+		<groupExpression><![CDATA[$F{comida}]]></groupExpression>
+	</group>
+	<group name="dia_semana">
+		<groupExpression><![CDATA[$F{dia_semana}]]></groupExpression>
+	</group>
+	<group name="horario">
+		<groupExpression><![CDATA[$F{horario}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="96" splitType="Stretch">
+			<image>
+				<reportElement x="440" y="0" width="135" height="64" uuid="ea5ad761-92e5-4024-9d51-efba4363bb54"/>
+				<imageExpression><![CDATA["logoUemg.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="0" y="13" width="300" height="33" uuid="91f5fe7f-a65f-46a3-81ae-30f2d82c45a2"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[RELATÓRIO REFEIÇÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="117" y="46" width="183" height="22" uuid="6931f6fc-c9e8-4cc3-9eec-607a123c87f7"/>
+				<text><![CDATA[Projeto final - POO2]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25">
+			<staticText>
+				<reportElement x="0" y="0" width="50" height="20" uuid="ff89e641-e51d-4b8a-ab05-85590efa3d0a"/>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="0" width="280" height="20" uuid="4a53521e-82a4-4fbb-81e7-178f5c259c39"/>
+				<text><![CDATA[COMIDA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="0" width="90" height="20" uuid="0a19f164-378b-430c-8368-89d05852bf47"/>
+				<text><![CDATA[DIA SEMANA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="0" width="100" height="20" uuid="2acbef07-1ae3-4d48-be02-538e89534ac3"/>
+				<text><![CDATA[HORÁRIO]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="21" width="555" height="1" uuid="ffde0804-90e8-496b-86fb-ee363619f187"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="50" height="20" uuid="92e605a3-c3f6-4685-9c9c-1e691fb792ad"/>
+				<textFieldExpression><![CDATA[$F{idrefeicao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="0" width="280" height="20" uuid="fa74b231-7e68-4c65-ae9f-16bc43610dc4"/>
+				<textFieldExpression><![CDATA[$F{comida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="0" width="90" height="20" uuid="48ab00de-fcd1-4d00-b79e-b8fcfd6f738b"/>
+				<textFieldExpression><![CDATA[$F{dia_semana}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="0" width="100" height="20" uuid="f4383d7f-98e1-4731-99e5-55ac08463f44"/>
+				<textFieldExpression><![CDATA[$F{horario}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="c9e9a989-76ae-4c92-a08c-dba3c3185f04"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="736cac2d-8f9a-48bb-b4e7-09302ce0e313"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="c49bc611-71b3-4860-8112-76288860b48d"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
