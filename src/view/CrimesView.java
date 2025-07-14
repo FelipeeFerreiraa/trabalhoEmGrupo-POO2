@@ -372,9 +372,7 @@ public class CrimesView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btn_salvarActionPerformed
 
     private void acaoGerarRelatorio() throws IOException {
-
         Relatorios.relatorio("relatorio_crimes", "", "");
-
     }
 
     private void btn_imprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimirActionPerformed

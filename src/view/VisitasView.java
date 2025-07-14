@@ -1,5 +1,15 @@
 package view;
 
+import controller.VisitasController;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.VisitasModel;
+import util.Relatorios;
+
 /**
  *
  * @author felip
@@ -11,6 +21,52 @@ public class VisitasView extends javax.swing.JInternalFrame {
      */
     public VisitasView() {
         initComponents();
+        inicializar();
+        preencherTabela();
+    }
+
+    private int linha = -1;
+
+    private void inicializar() {
+        cxt_id.setEnabled(false);
+        cxt_parentesco.setEnabled(false);
+        cxt_data.setEnabled(false);
+        cxt_presente.setEnabled(false);
+
+        btn_editar.setEnabled(false);
+        btn_excluir.setEnabled(false);
+        btn_salvar.setEnabled(false);
+        btn_novo.setEnabled(true);
+
+    }
+
+    private void preencherTabela() {
+        VisitasController controller = new VisitasController();
+        ArrayList<VisitasModel> lista = controller.selecionarTodos();
+
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "NENHUMA VISITA CADASTRADA! (VisitasView ln 41)",
+                    "Preenchendo tabela....", JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            DefaultTableModel modeloTabela = (DefaultTableModel) tb_visitas.getModel();
+            modeloTabela.setRowCount(0);
+            for (VisitasModel v : lista) {
+                modeloTabela.addRow(new String[]{
+                    String.valueOf(v.getIdvisitas()),
+                    v.getParentesco(),
+                    v.getData_visita(),
+                    v.getPresente()
+                });
+            }
+        }
+    }
+
+    private void limparCampos() {
+        cxt_id.setText("");
+        cxt_parentesco.setText("");
+        cxt_data.setText("");
+        cxt_presente.setText("");
     }
 
     /**
@@ -88,6 +144,11 @@ public class VisitasView extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tb_visitas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tb_visitasMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tb_visitas);
         if (tb_visitas.getColumnModel().getColumnCount() > 0) {
             tb_visitas.getColumnModel().getColumn(0).setResizable(false);
@@ -114,6 +175,11 @@ public class VisitasView extends javax.swing.JInternalFrame {
 
         btn_editar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btn_editar.setText("Editar");
+        btn_editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_editarActionPerformed(evt);
+            }
+        });
 
         btn_novo.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btn_novo.setText("Novo");
@@ -171,22 +237,24 @@ public class VisitasView extends javax.swing.JInternalFrame {
                         .addComponent(btn_fechar))
                     .addComponent(jScrollPane2)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btn_novo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btn_salvar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_salvar))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cxt_data)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btn_editar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btn_excluir)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btn_imprimir))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cxt_data, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cxt_presente, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -243,30 +311,156 @@ public class VisitasView extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cxt_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cxt_idActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_cxt_idActionPerformed
 
     private void btn_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_excluirActionPerformed
-        // TODO add your handling code here:
+        VisitasModel visitas = new VisitasModel();
+
+        if (cxt_id.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ESCOLHA UMA LINHA PARA EXCLUIR!", "Excluindo....",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+
+            visitas.setIdvisitas(Integer.parseInt(cxt_id.getText()));
+
+            // ---------------- CONTROLLER
+            VisitasController controller = new VisitasController();
+            if (controller.excluir(visitas)) {
+                JOptionPane.showMessageDialog(this, "Dados excluídos", "excluindo...!",
+                        JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+                inicializar();
+                preencherTabela();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "ERRO AO EXCLUIR VISITAS",
+                        "Algo de errado não está certo....", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
     }//GEN-LAST:event_btn_excluirActionPerformed
 
     private void btn_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_novoActionPerformed
-        // TODO add your handling code here:
+        cxt_id.setEnabled(false);
+        cxt_parentesco.setEnabled(true);
+        cxt_data.setEnabled(true);
+        cxt_presente.setEnabled(true);
+
+        btn_novo.setEnabled(false);
+        btn_editar.setEnabled(false);
+        btn_excluir.setEnabled(false);
+        btn_salvar.setEnabled(true);
+
+        limparCampos();
+        cxt_parentesco.requestFocus();
     }//GEN-LAST:event_btn_novoActionPerformed
 
     private void btn_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_salvarActionPerformed
-        // TODO add your handling code here:
+        String parentesco = cxt_parentesco.getText();
+        String data = cxt_data.getText();
+        String presente = cxt_presente.getText();
+
+        if (parentesco.isEmpty() || data.isEmpty() || presente.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "INFORME TODOS OS CAMPOS!", "Atenção....", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+            VisitasModel visitas = new VisitasModel();
+            visitas.setParentesco(parentesco);
+            visitas.setData_visita(data);
+            visitas.setPresente(presente);
+
+            // ------------ CONTROLLER
+            VisitasController controller = new VisitasController();
+            if (controller.inserir(visitas)) {
+                JOptionPane.showMessageDialog(this, "VISITA CADASTRADA!", "Salvamento realizado...",
+                        JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+                inicializar();
+                preencherTabela();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "ERRO AO INSERIR VISITA", "Algo de errado não está certo....",
+                        JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
     }//GEN-LAST:event_btn_salvarActionPerformed
 
+    private void acaoGerarRelatorio() throws IOException {
+        Relatorios.relatorio("relatorio_visitas", "", "");
+    }
+
     private void btn_imprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimirActionPerformed
-        // TODO add your handling code here:
+        try {
+            acaoGerarRelatorio();
+        } catch (IOException ex) {
+            Logger.getLogger(VisitasView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_imprimirActionPerformed
 
     private void btn_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_fecharActionPerformed
-
         this.dispose();
-
     }//GEN-LAST:event_btn_fecharActionPerformed
+
+    private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
+        int id = Integer.parseInt(cxt_id.getText());
+        String parentesco = cxt_parentesco.getText();
+        String data = cxt_data.getText();
+        String presente = cxt_presente.getText();
+
+        if (parentesco.isEmpty() || data.isEmpty() || presente.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Informe todos os campos.....", "Atenção!",
+                    JOptionPane.WARNING_MESSAGE);
+
+        } else {
+
+            VisitasModel visitas = new VisitasModel();
+            visitas.setIdvisitas(id);
+            visitas.setParentesco(parentesco);
+            visitas.setData_visita(data);
+            visitas.setPresente(presente);
+
+            // ---------------- CONTROLLER
+            VisitasController controller = new VisitasController();
+            if (controller.editar(visitas)) {
+                JOptionPane.showMessageDialog(this, "Dados Atualizados", "Atualizando...!",
+                        JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+                inicializar();
+                preencherTabela();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "ERRO AO EDITAR VISITAS", "Algo de errado não está certo....",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
+    }//GEN-LAST:event_btn_editarActionPerformed
+
+    private void tb_visitasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_visitasMouseClicked
+        linha = tb_visitas.getSelectedRow();
+
+        if (linha != -1) {
+            cxt_id.setText(tb_visitas.getValueAt(linha, 0).toString());
+            cxt_parentesco.setText(tb_visitas.getValueAt(linha, 1).toString());
+            cxt_data.setText(tb_visitas.getValueAt(linha, 2).toString());
+            cxt_presente.setText(tb_visitas.getValueAt(linha, 3).toString());
+
+            btn_novo.setEnabled(false);
+            btn_salvar.setEnabled(false);
+            btn_editar.setEnabled(true);
+            btn_excluir.setEnabled(true);
+
+            cxt_id.setEnabled(false);
+            cxt_parentesco.setEnabled(true);
+            cxt_data.setEnabled(true);
+            cxt_presente.setEnabled(true);
+
+            linha = -1;
+        }
+    }//GEN-LAST:event_tb_visitasMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

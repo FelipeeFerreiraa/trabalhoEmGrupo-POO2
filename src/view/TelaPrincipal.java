@@ -36,7 +36,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         ImageIcon icon = new ImageIcon(getClass().getResource("/images/tropaDeElite2.jpg"));
@@ -44,7 +44,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         panel_areaDeTrabalho = new javax.swing.JDesktopPane() {
 
             public void paintComponent(Graphics g) {
-                g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+                g.drawImage(image, 0,0,getWidth(), getHeight(), this);
             }
 
         };
@@ -63,17 +63,24 @@ public class TelaPrincipal extends javax.swing.JFrame {
         javax.swing.GroupLayout panel_areaDeTrabalhoLayout = new javax.swing.GroupLayout(panel_areaDeTrabalho);
         panel_areaDeTrabalho.setLayout(panel_areaDeTrabalhoLayout);
         panel_areaDeTrabalhoLayout.setHorizontalGroup(
-                panel_areaDeTrabalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 977, Short.MAX_VALUE));
+            panel_areaDeTrabalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 977, Short.MAX_VALUE)
+        );
         panel_areaDeTrabalhoLayout.setVerticalGroup(
-                panel_areaDeTrabalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 542, Short.MAX_VALUE));
+            panel_areaDeTrabalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 542, Short.MAX_VALUE)
+        );
 
         jMenu1.setText("Cadastro");
         jMenu1.setFont(new java.awt.Font("Arial", 0, 22)); // NOI18N
 
         menuItem_ipl.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         menuItem_ipl.setText("Indivíduo Privado de Liberdade ");
+        menuItem_ipl.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItem_iplActionPerformed(evt);
+            }
+        });
         jMenu1.add(menuItem_ipl);
 
         menuItem_policialPenal.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -87,6 +94,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         menuItem_celas.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         menuItem_celas.setText("Celas");
+        menuItem_celas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItem_celasActionPerformed(evt);
+            }
+        });
         jMenu1.add(menuItem_celas);
 
         menuItem_crimes.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -124,14 +136,25 @@ public class TelaPrincipal extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(panel_areaDeTrabalho, javax.swing.GroupLayout.Alignment.TRAILING));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panel_areaDeTrabalho, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(panel_areaDeTrabalho, javax.swing.GroupLayout.Alignment.TRAILING));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panel_areaDeTrabalho, javax.swing.GroupLayout.Alignment.TRAILING)
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void menuItem_celasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem_celasActionPerformed
+        abrirViewUnica(CelasView.class, CelasView::new);
+
+    }//GEN-LAST:event_menuItem_celasActionPerformed
+
+    private void menuItem_iplActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItem_iplActionPerformed
+        abrirViewUnica(IPLView.class, IPLView::new);
+    }//GEN-LAST:event_menuItem_iplActionPerformed
 
     public JDesktopPane getPanel_areaDeTrabalho() {
         return panel_areaDeTrabalho;

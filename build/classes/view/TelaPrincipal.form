@@ -19,6 +19,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Indiv&#xed;duo Privado de Liberdade "/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItem_iplActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuItem_policialPenal">
               <Properties>
@@ -38,6 +41,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Celas"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuItem_celasActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menuItem_crimes">
               <Properties>

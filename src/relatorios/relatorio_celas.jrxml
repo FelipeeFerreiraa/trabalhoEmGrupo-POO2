@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.0.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio_celas" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="32bd9555-c7af-43cb-b5dc-0845a239ebfa">
+	<property name="com.jaspersoft.studio.data.sql.tables" value="cGVuaXRlbmNpYXJpYS5jZWxhcyBBUyAsODUsNzYsODA0ZGE2ZWItNDA3MC00YWNhLTlkZjUtZDU1&#xA;YWY2ZDQxYzI3Ow==&#xA;"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="trabalhoPenitenciaria.xml"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT idcelas, qtde_max, qtde_atual, visita, visitas.parentesco FROM penitenciaria.celas, penitenciaria.visitas WHERE celas.visita = visitas.idvisitas]]>
+	</queryString>
+	<field name="idcelas" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="idcelas"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="celas"/>
+	</field>
+	<field name="qtde_max" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="qtde_max"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="celas"/>
+	</field>
+	<field name="qtde_atual" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="qtde_atual"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="celas"/>
+	</field>
+	<field name="visita" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="visita"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="celas"/>
+	</field>
+	<field name="parentesco" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="parentesco"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="visitas"/>
+	</field>
+	<group name="idcelas">
+		<groupExpression><![CDATA[$F{idcelas}]]></groupExpression>
+	</group>
+	<group name="qtde_max">
+		<groupExpression><![CDATA[$F{qtde_max}]]></groupExpression>
+	</group>
+	<group name="qtde_atual">
+		<groupExpression><![CDATA[$F{qtde_atual}]]></groupExpression>
+	</group>
+	<group name="visita">
+		<groupExpression><![CDATA[$F{visita}]]></groupExpression>
+	</group>
+	<group name="parentesco">
+		<groupExpression><![CDATA[$F{parentesco}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="13" width="300" height="33" uuid="ccd2312f-76e1-473f-8c95-126ebd8642eb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RELATÓRIO CELAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="117" y="46" width="183" height="22" uuid="af982dcd-192e-40c6-990c-7b9032fadb75"/>
+				<text><![CDATA[Projeto final - POO2]]></text>
+			</staticText>
+			<image>
+				<reportElement x="440" y="0" width="135" height="64" uuid="c0dd1d44-9bc9-4e6a-bca0-8ee2fa041435"/>
+				<imageExpression><![CDATA["logoUemg.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="19" splitType="Stretch">
+			<staticText>
+				<reportElement x="80" y="0" width="90" height="18" uuid="cde9d5d8-1e6c-4654-9a5f-4655f8bc24ae"/>
+				<text><![CDATA[QTDE MAX]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="0" width="81" height="18" uuid="ebe3908a-2e80-4b0f-805e-d1c1a13cff61"/>
+				<text><![CDATA[QTDE ATUAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="251" y="0" width="119" height="18" uuid="f53b5118-3526-43e4-bfa4-0f9776ded0b4"/>
+				<text><![CDATA[VISITA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="18" uuid="d2bc1d56-3ff9-4200-9363-4cea153e751e"/>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="17" width="555" height="1" uuid="8ac7f6ad-c31f-425c-9e3f-3fac6366765c"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="80" height="20" uuid="21b11d5c-f391-41f6-a8a9-a68fc90f133a"/>
+				<textFieldExpression><![CDATA[$F{idcelas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="0" width="89" height="20" uuid="d05c0c22-82a0-40f2-9416-d541936397f6"/>
+				<textFieldExpression><![CDATA[$F{qtde_max}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="0" width="81" height="20" uuid="95b24740-67ba-42fe-bdbd-1d8c99670a6d"/>
+				<textFieldExpression><![CDATA[$F{qtde_atual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="251" y="0" width="119" height="20" uuid="3849e3d2-0570-41a2-a291-5cbcb6ab728a"/>
+				<textFieldExpression><![CDATA[$F{parentesco}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="0" width="197" height="20" uuid="13e6dfbe-d2a0-4b5c-b85a-7441439ca4d5"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="433" y="0" width="80" height="20" uuid="00282322-f9bd-4e60-a962-2f340ed9c6ab"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="513" y="0" width="40" height="20" uuid="b90062af-1e56-4740-bd0b-59284a4b8d3f"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
