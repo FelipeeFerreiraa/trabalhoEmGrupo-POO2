@@ -217,6 +217,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         abrirViewUnica(VisitasView.class, VisitasView::new);
     }
 
+    public void abreJanelaPesquisaDentroDeIPL() {
+        abrirViewUnica(PesquisaView.class, PesquisaView::new);
+    }
     /**
      * @param args the command line arguments
      */

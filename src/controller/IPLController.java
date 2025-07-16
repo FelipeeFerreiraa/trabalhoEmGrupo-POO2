@@ -52,7 +52,7 @@ public class IPLController {
         boolean retorno = false;
 
         Conexao.conectar();
-        String sql = "UPDATE celas SET nome=?, cpf=?, crime=?, parentesco=?, refeicao=?, policial=? WHERE idipl=?";
+        String sql = "UPDATE ipl SET nome=?, cpf=?, crime=?, parentesco=?, refeicao=?, policial=? WHERE idipl=?";
 
         try {
             PreparedStatement sentenca = Conexao.conector.prepareStatement(sql);
@@ -195,6 +195,40 @@ public class IPLController {
 
         Conexao.desconectar();
         return retorno_lista;
+    }
+
+    public IPLModel buscarCpf(String cpf) {
+
+        IPLModel retorno = null;
+
+        Conexao.conectar();
+        String sql = "SELECT i.idipl, i.nome, i.cpf, c.descricao, v.parentesco, r.comida, p.pp_nome FROM ipl i INNER JOIN crimes c ON i.crime = c.idcrimes INNER JOIN visitas v ON i.parentesco = v.idvisitas INNER JOIN refeicao r ON i.refeicao = r.idrefeicao INNER JOIN policialpenal p ON i.policial = p.idpolicialPenal WHERE i.cpf = ?";
+
+        try {
+            PreparedStatement sentenca = Conexao.conector.prepareStatement(sql);
+            sentenca.setString(1, cpf);
+            ResultSet result = sentenca.executeQuery();
+
+            if (result.next()) {
+                retorno = new IPLModel();
+                retorno.setIdipl(result.getInt("idipl"));
+                retorno.setIpl_nome(result.getString("nome"));
+                retorno.setIpl_cpf(result.getString("cpf"));
+                retorno.getCrime().setDescricao(result.getString("descricao"));
+                retorno.getParentesco().setParentesco(result.getString("parentesco"));
+                retorno.getRefeicao().setComida(result.getString("comida"));
+                retorno.getPolicial().setNome(result.getString("pp_nome"));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(IPLController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(
+                    "------------------------------------- ERRO AO BUSCARCPF() (IPLController ln129) -------------------------------------)");
+
+        }
+
+        Conexao.desconectar();
+        return retorno;
     }
 
 }

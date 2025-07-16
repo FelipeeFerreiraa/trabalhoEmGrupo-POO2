@@ -122,6 +122,7 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JDesktopPane() {&#xa;&#xa;    public void paintComponent(Graphics g) {&#xa;        g.drawImage(image, 0,0,getWidth(), getHeight(), this);&#xa;    }&#xa;&#xa;}"/>
         <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="ImageIcon icon = new ImageIcon(getClass().getResource(&quot;/images/tropaDeElite2.jpg&quot;));&#xa;Image image = icon.getImage();"/>
+        <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="TelaPrincipal_panel_areaDeTrabalho"/>
       </AuxValues>
 
       <Layout>

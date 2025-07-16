@@ -5,8 +5,11 @@ import controller.PolicialPenalController;
 import controller.VisitasController;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.*;
@@ -158,6 +161,7 @@ public class IPLView extends javax.swing.JInternalFrame {
         cxt_parentesco = new javax.swing.JComboBox<>();
         cxt_refeicao = new javax.swing.JComboBox<>();
         cxt_policial = new javax.swing.JComboBox<>();
+        btn_pesquisar = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -298,6 +302,14 @@ public class IPLView extends javax.swing.JInternalFrame {
 
         cxt_policial.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
 
+        btn_pesquisar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btn_pesquisar.setText("Pesquisar");
+        btn_pesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_pesquisarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -315,7 +327,7 @@ public class IPLView extends javax.swing.JInternalFrame {
                                 .addComponent(btn_editar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btn_excluir)
-                                .addGap(0, 375, Short.MAX_VALUE))
+                                .addGap(0, 357, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -343,7 +355,7 @@ public class IPLView extends javax.swing.JInternalFrame {
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel2)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(cxt_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(cxt_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(0, 0, Short.MAX_VALUE))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jLabel4)
@@ -355,8 +367,10 @@ public class IPLView extends javax.swing.JInternalFrame {
                                                 .addComponent(cxt_policial, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_fechar, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btn_imprimir, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btn_pesquisar, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btn_imprimir, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(btn_fechar, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addComponent(jScrollPane2))
                 .addContainerGap())
         );
@@ -372,13 +386,19 @@ public class IPLView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(cxt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cxt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(cxt_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(cxt_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(cxt_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(btn_pesquisar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(cxt_crime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -422,20 +442,61 @@ public class IPLView extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_novoMouseClicked
 
+    private void btn_pesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_pesquisarActionPerformed
+
+        JDesktopPane minhaTela = this.getDesktopPane();
+
+        abrirViewUnica(PesquisaView.class, PesquisaView::new, minhaTela);
+
+        // PesquisaView pesquisaView = new PesquisaView();
+        // pesquisaView.setVisible(true);
+        //minhaTela.add(pesquisaView);
+    }//GEN-LAST:event_btn_pesquisarActionPerformed
+
+    private void abrirViewUnica(Class<? extends JInternalFrame> classeView, Supplier<JInternalFrame> criadorView, JDesktopPane minhaTela) {
+        boolean jaAberta = false;
+
+        for (JInternalFrame frame : minhaTela.getAllFrames()) {
+            if (classeView.isInstance(frame)) {
+                jaAberta = true;
+
+                try {
+                    frame.setIcon(false); // Restaurar se minimizada
+                    frame.setSelected(true); // Selecionar
+                    frame.toFront(); // Trazer para frente
+                } catch (java.beans.PropertyVetoException ex) {
+                    ex.printStackTrace();
+                }
+                break;
+            }
+        }
+
+        if (!jaAberta) {
+            JInternalFrame novaView = criadorView.get();
+            minhaTela.add(novaView);
+            novaView.setVisible(true);
+
+        }
+    }
+
     private void cxt_idActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cxt_idActionPerformed
         // TODO add your handling code here:
     }// GEN-LAST:event_cxt_idActionPerformed
 
     private void btn_excluirActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btn_excluirActionPerformed
+        IPLModel ipl = new IPLModel();
+
         if (cxt_id.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "ESCOLHA UMA LINHA PARA EXCLUIR!", "Excluindo....",
                     JOptionPane.INFORMATION_MESSAGE);
 
         } else {
 
+            ipl.setIdipl(Integer.parseInt(cxt_id.getText()));
+
             // ---------------- CONTROLLER
-            PolicialPenalController controller = new PolicialPenalController();
-            if (controller.editar(Integer.parseInt(cxt_id.getText()))) {
+            IPLController controller = new IPLController();
+            if (controller.excluir(ipl)) {
                 JOptionPane.showMessageDialog(this, "Dados excluídos", "excluindo...!",
                         JOptionPane.INFORMATION_MESSAGE);
                 limparCampos();
@@ -443,7 +504,7 @@ public class IPLView extends javax.swing.JInternalFrame {
                 preencherTabela();
 
             } else {
-                JOptionPane.showMessageDialog(this, "ERRO AO EXCLUIR POLICIALPENAL",
+                JOptionPane.showMessageDialog(this, "ERRO AO EXCLUIR IPL",
                         "Algo de errado não está certo....", JOptionPane.ERROR_MESSAGE);
 
             }
@@ -471,7 +532,76 @@ public class IPLView extends javax.swing.JInternalFrame {
     }
 
     private void btn_salvarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btn_salvarActionPerformed
+        String nome = cxt_nome.getText();
+        String cpf = cxt_cpf.getText();
+        String crime = cxt_crime.getSelectedItem().toString();
+        String parentesco = cxt_parentesco.getSelectedItem().toString();
+        String refeicao = cxt_refeicao.getSelectedItem().toString();
+        String policial = cxt_policial.getSelectedItem().toString();
 
+        if (nome.isEmpty() || cpf.isEmpty() || crime.isEmpty() || parentesco.isEmpty() || refeicao.isEmpty() || policial.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "INFORME TODOS OS CAMPOS!", "Atenção....", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+            String crimesCBX1 = (String) cxt_crime.getSelectedItem();
+            int intCrimes = 0;
+            for (int x = 0; x < listaCrimes.size(); x++) {
+                if (crimesCBX1.equals(listaCrimes.get(x).getDescricao())) {
+                    intCrimes = listaCrimes.get(x).getIdcrimes();
+                    break;
+                }
+            }
+
+            String visitaCBX2 = (String) cxt_parentesco.getSelectedItem();
+            int intVisita = 0;
+            for (int x = 0; x < listaVisitantes.size(); x++) {
+                if (visitaCBX2.equals(listaVisitantes.get(x).getParentesco())) {
+                    intVisita = listaVisitantes.get(x).getIdvisitas();
+                    break;
+                }
+            }
+
+            String refeicaoCBX3 = (String) cxt_refeicao.getSelectedItem();
+            int intRefeicao = 0;
+            for (int x = 0; x < listaRefeicao.size(); x++) {
+                if (refeicaoCBX3.equals(listaRefeicao.get(x).getComida())) {
+                    intRefeicao = listaRefeicao.get(x).getIdrefeicao();
+                    break;
+                }
+            }
+
+            String policialCBX4 = (String) cxt_policial.getSelectedItem();
+            int intPolicial = 0;
+            for (int x = 0; x < listaPolicial.size(); x++) {
+                if (policialCBX4.equals(listaPolicial.get(x).getNome())) {
+                    intPolicial = listaPolicial.get(x).getIdpolicialpenal();
+                    break;
+                }
+            }
+
+            IPLModel ipl = new IPLModel();
+            ipl.setIpl_nome(nome);
+            ipl.setIpl_cpf(cpf);
+            ipl.getCrime().setIdcrimes(intCrimes);
+            ipl.getParentesco().setIdvisitas(intVisita);
+            ipl.getRefeicao().setIdrefeicao(intRefeicao);
+            ipl.getPolicial().setIdpolicialpenal(intPolicial);
+
+            // ------------ CONTROLLER
+            IPLController controller = new IPLController();
+            if (controller.inserir(ipl)) {
+                JOptionPane.showMessageDialog(this, "IPL CADASTRADO!", "Salvamento realizado...",
+                        JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+                inicializar();
+                preencherTabela();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "ERRO AO INSERIR CRIME", "Algo de errado não está certo....",
+                        JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
     }
 
     private void acaoGerarRelatorio() throws IOException {
@@ -484,8 +614,10 @@ public class IPLView extends javax.swing.JInternalFrame {
 
         try {
             acaoGerarRelatorio();
+
         } catch (IOException ex) {
-            Logger.getLogger(IPLView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(IPLView.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -539,9 +671,69 @@ public class IPLView extends javax.swing.JInternalFrame {
 
         } else {
 
+            String crimesCBX1 = (String) cxt_crime.getSelectedItem();
+            int intCrimes = 0;
+            for (int x = 0; x < listaCrimes.size(); x++) {
+                if (crimesCBX1.equals(listaCrimes.get(x).getDescricao())) {
+                    intCrimes = listaCrimes.get(x).getIdcrimes();
+                    break;
+                }
+            }
+
+            String visitaCBX2 = (String) cxt_parentesco.getSelectedItem();
+            int intVisita = 0;
+            for (int x = 0; x < listaVisitantes.size(); x++) {
+                if (visitaCBX2.equals(listaVisitantes.get(x).getParentesco())) {
+                    intVisita = listaVisitantes.get(x).getIdvisitas();
+                    break;
+                }
+            }
+
+            String refeicaoCBX3 = (String) cxt_refeicao.getSelectedItem();
+            int intRefeicao = 0;
+            for (int x = 0; x < listaRefeicao.size(); x++) {
+                if (refeicaoCBX3.equals(listaRefeicao.get(x).getComida())) {
+                    intRefeicao = listaRefeicao.get(x).getIdrefeicao();
+                    break;
+                }
+            }
+
+            String policialCBX4 = (String) cxt_policial.getSelectedItem();
+            int intPolicial = 0;
+            for (int x = 0; x < listaPolicial.size(); x++) {
+                if (policialCBX4.equals(listaPolicial.get(x).getNome())) {
+                    intPolicial = listaPolicial.get(x).getIdpolicialpenal();
+                    break;
+                }
+            }
+
+            IPLModel ipl = new IPLModel();
+            ipl.setIpl_nome(nome);
+            ipl.setIpl_cpf(cpf);
+            ipl.getCrime().setIdcrimes(intCrimes);
+            ipl.getParentesco().setIdvisitas(intVisita);
+            ipl.getRefeicao().setIdrefeicao(intRefeicao);
+            ipl.getPolicial().setIdpolicialpenal(intPolicial);
+            ipl.setIdipl(id);
+
+            // ---------------- CONTROLLER
+            IPLController controller = new IPLController();
+            if (controller.editar(ipl)) {
+                JOptionPane.showMessageDialog(this, "Dados Atualizados", "Atualizando...!",
+                        JOptionPane.INFORMATION_MESSAGE);
+                limparCampos();
+                inicializar();
+                preencherTabela();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "ERRO AO EDITAR IPL", "Algo de errado não está certo....",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
         }
 
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_editar;
@@ -549,6 +741,7 @@ public class IPLView extends javax.swing.JInternalFrame {
     private javax.swing.JButton btn_fechar;
     private javax.swing.JButton btn_imprimir;
     private javax.swing.JButton btn_novo;
+    private javax.swing.JButton btn_pesquisar;
     private javax.swing.JButton btn_salvar;
     private javax.swing.JFormattedTextField cxt_cpf;
     private javax.swing.JComboBox<String> cxt_crime;
